@@ -1,0 +1,43 @@
+<div class="container">
+
+ <div class="tytle">
+  <h2>レビュー編集</h2>
+ </div>
+
+<%= form_with model: @review, url: public_review_path, method: :patch do |f| %>
+ <%= f.label :venue, '式場名' %><br>
+  <%= f.text_field :venue, class: 'form-control',size: "10x5" %><br>
+ <%= f.label :prefecture_id, '都道府県' %><br>
+  <%= f.collection_select :prefecture_id, Prefecture.all, :id, :prefecture_name, prompt: "選択してください" %><br>
+ <%= f.label :chapel, '挙式会場' %><br>
+  <%= f.text_area :chapel, class: 'form-control',size: "10x5" %><br>
+ <%= f.label :reception, '披露宴会場' %><br>
+  <%= f.text_area :reception, class: 'form-control',size: "10x5" %><br>
+ <%= f.label :food, '料理' %><br>
+  <%= f.text_area :food, class: 'form-control',size: "10x5" %><br>
+ <%= f.label :staff, 'スタッフ対応' %><br>
+  <%= f.text_area :staff, class: 'form-control',size: "10x5" %><br>
+ <%= f.label :access, 'アクセス' %><br>
+  <%= f.text_area :access, class: 'form-control',size: "10x5" %><br>
+ <%= f.label :comment, '総合コメント' %><br>
+  <%= f.text_area :comment, class: 'form-control',size: "10x5" %><br>
+ <%= f.label :image, '写真' %><br>
+  <%= f.file_field :images, multiple: true %><br>
+  <br>
+  <% if @review.images.attached? %>
+  <% @review.images.each do |image| %>
+    <%= f.check_box :image_ids, {multiple: true}, image.id, false %>
+    <%= image_tag image.variant(resize: '300x300') %>
+  <% end %>
+ <% end %>
+
+ <%= f.hidden_field :customer_id, :value => current_customer.id %>
+
+ <div class="actions">
+  <%= f.submit '更新', class: "btn btn-success w-50 mt-2" %>
+ </div>
+<% end %>
+ <div class="actions">
+  <%= link_to "この投稿を削除する", public_review_path(@review.id),method: :delete, class: "btn btn-danger w-50 mt-2" %>
+ </div>
+</div>

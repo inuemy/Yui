@@ -1,0 +1,16 @@
+<div class="container">
+
+ <div class="tytle">
+  <h2><%= @customer.last_name %> <%= @customer.first_name %>さんのレビュー一覧</h2>
+ </div>
+
+<% @reviews.each do |review| %>
+<%= link_to admin_review_path(review.id) do %>
+ <div class ="reviewbox">
+  <h5><%= review.venue %></h5><br>
+<% end %>
+ <%= review.comment %><br>
+ </div>
+<% end %>
+ <%= paginate @reviews %>
+</div>

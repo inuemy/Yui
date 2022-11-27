@@ -1,0 +1,91 @@
+<div class="container">
+
+ <div class="tytle">
+  <% if customer_signed_in? %>
+   <h2>マイページ</h2>
+  <% else %>
+   <h2><%= @customer.last_name %> <%= @customer.first_name %>さんのプロフィール</h2>
+  <% end %>
+ </div>
+
+<div class="row">
+ <div class="col-lg-3">
+ <%= image_tag @customer.get_profile_image, size: "160x160" %>
+ </div>
+ <div class="col-lg-3">
+  <p><i class="fas fa-heart", style="color: #FFEEFF;"></i>氏名</p>
+   <%= @customer.last_name %> <%= @customer.first_name %><br>
+   <br>
+  <p><i class="fas fa-heart", style="color: #EEFFFF;"></i>フリガナ</p>
+   <%= @customer.last_name_kana %> <%= @customer.first_name_kana %><br>
+   <br>
+  <p><i class="fas fa-heart", style="color: #FFEEFF;"></i>ニックネーム</p>
+   <%= @customer.nickname %><br>
+   <br>
+ </div>
+ <div class="col-lg-3">
+  <p><i class="fas fa-heart", style="color: #EEFFFF;"></i>性別</p>
+   <% if @customer.sex == "man" %>
+    男性
+   <% else%>
+    女性
+   <% end %>
+   <br>
+   <br>
+  <p><i class="fas fa-heart", style="color: #FFEEFF;"></i>生年月日</p>
+   <%= @customer.birthday %><br>
+   <br>
+  <p><i class="fas fa-heart", style="color: #EEFFFF;"></i>都道府県</p>
+   <%= @customer.prefecture.prefecture_name %><br>
+   <br>
+ </div>
+ <div class="col-lg-3">
+  <% if @customer == current_customer %>
+  <div class="edit_path">
+   <%= link_to '>プロフィールを編集する', edit_public_customer_path(@customer.id) %>
+  </div>
+  <% end %>
+ </div>
+</div>
+
+<% if @customer == current_customer %>
+<div class="button">
+<%= link_to 'レビューを書く', new_public_review_path, class: "btn btn-outline-secondary w-50 mt-2" %>
+</div>
+<% end %>
+
+<div class="row">
+ <div class="col-lg-6">
+<div class="tytle">
+ <h4>最近投稿したレビュー</h4>
+</div>
+<% @reviews.each do |review| %>
+<div class="reviewbox">
+ <h5><%= review.venue %></h5>
+ <%= review.comment %><br>
+</div>
+<% end %>
+<div class="index_path">
+<%= link_to '>もっと見る', public_public_reviews_path(@customer.id) %><br>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="tytle">
+ <h4>最近投稿したコメント</h4>
+</div>
+<% @comments.each do |comment| %>
+<div class = "row comment_box">
+ <div class = "col-lg-2">
+ <%= image_tag @customer.get_profile_image, size: "60x60" %>
+ </div>
+ <div class = "col-lg-10 comment">
+ <%= comment.comment %><br>
+ </div>
+</div>
+<% end %>
+<div class="index_path">
+<%= link_to '>もっと見る', public_public_comments_path(@customer.id) %>
+</div>
+</div>
+</div>
+</div>

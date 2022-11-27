@@ -1,0 +1,70 @@
+<div class ="container">
+  <div class ="row">
+    <div class ="col-lg-2">
+<table class="table">
+  <thead>
+    <th>都道府県から探す</th>
+  </thead>
+  <tbody>
+    <td>
+    <% @prefectures.each do |prefecture| %>
+     <div class="prefecture_name">
+      <%= link_to root_path(prefecture_id: prefecture.id) do %>
+      <%= prefecture.prefecture_name %>
+      <% end %>
+      <br>
+     </div>
+    <% end %>
+    </td>
+  </tbody>
+</table>
+    </div>
+
+<div class="col-lg-9 image">
+  <div style="text-align: center;">
+   <%= image_tag 'wedding.jpeg', :width => '100%', :height => '500px'  %>
+  </div>
+
+<div class="tytle">
+ <h4>新着レビュー</h4>
+</div>
+<div class="row">
+<% @reviews.each do |review| %>
+<div class="col-lg-4">
+  <div class="reviewbox1">
+  <div class="row">
+  <div class="col-lg-3">
+    <% if customer_signed_in? %>
+    <%= link_to public_customer_path(review.customer.id) do %>
+     <%= image_tag review.customer.get_profile_image, size: "60x60" %>
+     <% end %>
+    <% else %>
+    <%= link_to new_customer_session_path do %>
+     <%= image_tag review.customer.get_profile_image, size: "60x60" %>
+     <% end %>
+    <% end %>
+  </div>
+  <div class="col-lg-9 review_center">
+    <% if customer_signed_in? %>
+    <%= link_to public_review_path(review.id) do %>
+     <%= review.venue %>
+     <% end %>
+    <% else %>
+    <%= link_to new_customer_session_path do %>
+     <%= review.venue %>
+     <% end %>
+    <% end %>
+  </div>
+  </div>
+  <div class="review_center">
+  <br>
+ <%= review.comment.truncate(85, separator: '.') %><br>
+  </div>
+  </div>
+  </div>
+<% end %>
+</div>
+<%= paginate @reviews %>
+</div>
+</div>
+</div>

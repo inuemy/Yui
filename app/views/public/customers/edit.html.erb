@@ -1,0 +1,63 @@
+<div class="container">
+
+ <div class="tytle">
+  <h2>会員情報編集</h2>
+ </div>
+
+<%= form_with model: @customer, url: public_customer_path, method: :patch do |f| %>
+
+ <div class="field">
+  <%= image_tag @customer.get_profile_image, size: "160x160" %>
+   <%= f.file_field :profile_image, accept: "image/*" %><br>
+ </div>
+
+ <div class="field">
+  <%= f.label :name, '氏名' %><br>
+   <%= f.text_field :last_name, size: 30 %>  <%= f.text_field :first_name, size: 30 %><br>
+ </div>
+
+ <div class="field">
+  <%= f.label :name_kana, 'フリガナ' %><br>
+   <%= f.text_field :last_name_kana, size: 30 %>  <%= f.text_field :first_name_kana, size: 30 %><br>
+ </div>
+
+ <div class="field">
+  <%= f.label :nickname, 'ニックネーム' %><br>
+   <%= f.text_field :nickname, size: 40 %><br>
+ </div>
+
+ <div class="field">
+   <%= f.label :sex, '性別' %><br />
+    <%= f.radio_button :sex, :man %>
+    <%= f.label :sex, Customer.sexes_i18n[:man] %>
+    <%= f.radio_button :sex, :woman %>
+    <%= f.label :sex, Customer.sexes_i18n[:woman] %><br>
+ </div>
+
+ <div class="field">
+  <%= f.label :birthday, '生年月日' %><br>
+   <%= f.date_select(
+        :birthday,
+        start_year: 1930,
+        end_year: (Time.now.year),
+        default: Date.new(1989, 1, 1)) %><br>
+ </div>
+
+ <div class="field">
+  <%= f.label :prefecture_name, '都道府県' %><br>
+   <%= f.collection_select :prefecture_id, Prefecture.all, :id, :prefecture_name, prompt:"選択してください" %><br>
+ </div>
+
+ <div class="field">
+  <%= f.label :email, 'メールアドレス' %><br>
+   <%= f.text_field :email, size: 40 %><br>
+ </div>
+
+ <div class="actions">
+  <%= f.submit '更新', class: "btn btn-success w-50 mt-2" %>
+ </div>
+ <div class="actions">
+  <%= link_to "退会する", public_customers_unsubscribe_path, class: "btn btn-danger w-50 mt-2" %>
+ </div>
+<% end %>
+</div>

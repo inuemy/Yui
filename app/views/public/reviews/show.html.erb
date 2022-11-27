@@ -1,0 +1,80 @@
+<div class="container">
+
+<div class="tytle">
+ <h2>レビュー詳細</h2>
+</div>
+
+<div class="row">
+ <div class="col-lg-10">
+  <h4><%= @review.venue %></h4>
+ </div>
+ <div class="col-lg-2 prefecture">
+  <%= @review.prefecture.prefecture_name %>
+ </div>
+</div>
+<div class="row">
+ <div class="col-lg-6">
+  <h5 class="review_show">挙式会場</h5>
+   <%= @review.chapel %><br>
+  <br>
+  <h5 class="review_show">披露宴会場</h5>
+   <%= @review.reception %><br>
+  <br>
+  <h5 class="review_show">料理</h5>
+   <%= @review.food %><br>
+  <br>
+ </div>
+ <div class="col-lg-6">
+<h5 class="review_show">スタッフ対応</h5>
+ <%= @review.staff %><br>
+ <br>
+<h5 class="review_show">アクセス</h5>
+ <%= @review.access %><br>
+ <br>
+<h5 class="review_show">総合コメント</h5>
+ <%= @review.comment %><br>
+ </div>
+</div>
+
+<div class="row">
+ <div class="col-lg-10">
+ <% if @review.images.attached? %>
+  <% @review.images.each do |image| %>
+    <%= image_tag image.variant(resize: '300x300') %>
+  <% end %>
+ <% end %><br>
+ </div>
+ <% if @review.customer == current_customer %>
+  <div class="col-lg-2">
+   <%= link_to ">編集する", edit_public_review_path(@review.id) %>
+  </div>
+ <% end %>
+</div>
+
+<% if customer_signed_in? && current_customer.email != "aaa@aaa.com" %>
+<div class ="comment_new">
+<%= form_with model: @comment, url: public_comments_path, method: :post do |f| %>
+ <%= f.text_area :comment, class: 'form-control',size: "10x5" %><br>
+ <%= f.hidden_field :customer_id, :value => current_customer.id %>
+ <%= f.hidden_field :review_id, :value => @review.id %>
+ <%= f.submit 'このレビューにコメントする', class: "btn btn-success w-50 mt-2" %>
+<% end %>
+</div>
+<% end %>
+
+<div class ="comment_box">
+<h4>コメント一覧</h4>
+</div>
+<% @comments.each do |comment| %>
+<div class = "row comment_box">
+ <div class = "col-lg-1">
+  <%= link_to public_customer_path(comment.customer.id) do %>
+   <%= image_tag comment.customer.get_profile_image, size: "60x60" %>
+  <% end %>
+ </div>
+ <div class = "col-lg-11 comment">
+    <%= comment.comment %><br>
+ </div>
+</div>
+<% end %>
+</div>

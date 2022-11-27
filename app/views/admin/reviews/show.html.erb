@@ -1,0 +1,51 @@
+<div class="container">
+
+<div class="tytle">
+ <h2>レビュー詳細</h2>
+</div>
+
+<div class="row">
+ <div class="col-lg-10">
+  <h4><%= @review.venue %></h4>
+ </div>
+ <div class="col-lg-2">
+  <%= @review.prefecture.prefecture_name %>
+ </div>
+</div>
+<div class="row">
+ <div class="col-lg-6">
+  <h5 class="review_show">挙式会場</h5>
+   <%= @review.chapel %><br>
+  <br>
+  <h5 class="review_show">披露宴会場</h5>
+   <%= @review.reception %><br>
+  <br>
+  <h5 class="review_show">料理</h5>
+   <%= @review.food %><br>
+  <br>
+ </div>
+ <div class="col-lg-6">
+  <h5 class="review_show">スタッフ</h5>
+   <%= @review.staff %><br>
+   <br>
+   <h5 class="review_show">アクセス</h5>
+   <%= @review.access %><br>
+   <br>
+   <h5 class="review_show">総合コメント</h5>
+   <%= @review.comment %><br>
+   </div>
+  </div>
+
+  <div class="row">
+   <% if @review.images.attached? %>
+    <% @review.images.each do |image| %>
+     <%= image_tag image.variant(resize: '300x300') %>
+    <% end %>
+   <% end %><br>
+  </div>
+
+
+<div class="actions">
+ <%= link_to 'このレビューを削除する', admin_review_path, method: :delete, class: "btn btn-danger w-50 mt-2" %>
+</div>
+</div>

@@ -1,0 +1,13 @@
+<div class="container">
+
+<div class="tytle">
+ <h2>コメント編集</h2>
+</div>
+
+<div class ="comment_edit">
+ <%= form_with model: @comment, url: public_comment_path, method: :patch do |f| %>
+  <%= f.text_area :comment, class: 'form-control',size: "10x5" %><br>
+  <%= f.submit '更新', class: "btn btn-success w-50 mt-2" %>
+ <% end %>
+</div>
+</div>
